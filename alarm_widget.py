@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QPushButton
 
 
 class AlarmWidget(QWidget):
-    def __init__(self, alarm_text):
+    def __init__(self, alarm_time):
         super().__init__()
 
-        self.alarm_text = alarm_text
+        self.alarm_text = alarm_time
 
         self.initUI()
 

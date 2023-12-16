@@ -14,7 +14,8 @@ class AdjustableTimerAndAlarmApp(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Adjustable Timer and Alarm')
-        self.setGeometry(100, 100, 500, 300)
+        self.setGeometry(100, 100, 500, 500)
+        self.setFixedSize(500, 500)
 
         main_widget = QWidget(self)
         self.setCentralWidget(main_widget)
