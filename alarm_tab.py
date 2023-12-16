@@ -6,6 +6,16 @@ from HardwareCommunicator import HardwareCommunicator
 from alarm_widget import AlarmWidget
 
 
+def add_trailing_zero(text):
+    return '0' + text if len(text) == 1 else text
+
+def remove_widgets(layout):
+    while layout.count():
+        item = layout.takeAt(0)
+        widget = item.widget()
+        if widget:
+            widget.deleteLater()
+
 class AlarmTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -26,22 +36,20 @@ class AlarmTab(QWidget):
         set_alarm_button.pressed.connect(lambda:
                                          self.hardwareCommunicator.
                                          send_alarm_time(alarm_time_edit.time(), self.errors))
+        set_alarm_button.pressed.connect(self.show_alarms)
         set_alarm_button.pressed.connect(lambda: print(self.errors))
         layout.addWidget(set_alarm_button)
-
-        remove_alarm_label = QLabel('Remove Alarm', self)
-        layout.addWidget(remove_alarm_label)
 
         self.alarm_list = QVBoxLayout()
 
         layout.addLayout(self.alarm_list)
 
-
-        show_alarms_button = QPushButton('Show Alarms', self)
-        # show_alarms_button.pressed.connect(lambda :self.show_alarms(self.hardwareCommunicator.get_alarms()))
-        layout.addWidget(show_alarms_button)
-
     def show_alarms(self):
+        remove_widgets(self.alarm_list)
         alarms_raw_value: List[str] = self.hardwareCommunicator.get_alarms()
-        # 1533
+        for alarm_value in alarms_raw_value:
+            raw_hour = ''.join(alarm_value[:2])
+            hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
+            time = hour + ':' + alarm_value[-2:] + ' ' + daynight
+            self.alarm_list.addWidget(AlarmWidget(time))
 
