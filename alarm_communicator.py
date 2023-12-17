@@ -2,6 +2,7 @@ from typing import List, Dict, Literal, Optional
 
 from PyQt5.QtWidgets import QTimeEdit
 
+from serial_communication import SerialCommunication
 from util import Util
 
 AlarmNumbers = Literal['1', '2', '3', '4']
@@ -10,7 +11,7 @@ AlarmNumbers = Literal['1', '2', '3', '4']
 class AlarmCommunicator:
 
     def __init__(self):
-
+        self.serial = SerialCommunication.get_instance()
         self.alarms: Dict[AlarmNumbers, Optional[str]] = {
             '1': None,
             '2': None,
@@ -34,5 +35,7 @@ class AlarmCommunicator:
         print(self.alarms)
 
     def get_alarms(self) -> List[str]:
-        # hardware check
+        self.serial.write_data('4')
+        all_alarms = self.serial.read_all_data()
+        print(all_alarms)
         return [v for v in self.alarms.values() if v is not None]
