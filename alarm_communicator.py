@@ -51,10 +51,10 @@ class AlarmCommunicator:
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
         self.serial.write_data('40')
-        # all_alarms = self.serial.read_data_by_bytes(16)
-        all_alarms = "0012FFFF05500909"
+        all_alarms = self.serial.read_data_by_bytes(16)
+        # all_alarms = "0012FFFF05500909"
         self.serial.close_connection()
-        # print('after send 4', all_alarms)
+        print('get_alarms: ', all_alarms)
         for c in range(0, 4):
             alarm = all_alarms[c * 4: c * 4 + 4]
             if alarm == 'FFFF':
