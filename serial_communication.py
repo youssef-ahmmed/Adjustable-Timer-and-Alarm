@@ -58,7 +58,7 @@ class SerialCommunication:
     def read_all_data(self):
         if self.serial and self.serial.is_open:
             try:
-                data = self.serial.readline().decode('utf-8')
+                data = self.serial.readlines().decode('utf-8')
                 print(f"Received: {data}")
                 return data
             except SerialException as e:

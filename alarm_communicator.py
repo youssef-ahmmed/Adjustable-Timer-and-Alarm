@@ -40,7 +40,7 @@ class AlarmCommunicator:
         # self.serial.close_connection()
 
         # self.serial.open_connection()
-        all_alarms = self.serial.read_data_by_bytes(1)
+        all_alarms = self.serial.read_data_by_bytes(16)
         self.serial.close_connection()
         print('after send 4', all_alarms)
         return [v for v in self.alarms.values() if v is not None]
