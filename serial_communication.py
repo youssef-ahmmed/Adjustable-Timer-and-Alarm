@@ -7,12 +7,12 @@ class SerialCommunication:
     _instance = None
 
     @classmethod
-    def get_instance(cls, port='COM1', baudrate=9600):
-        if not SerialCommunication._instance:
-            SerialCommunication._instance = SerialCommunication(port, baudrate)
-        return SerialCommunication._instance
+    def get_instance(cls):
+        if not cls._instance:
+            cls._instance = cls()
+        return cls._instance
 
-    def __init__(self, port, baudrate):
+    def __init__(self, port='COM2', baudrate=9600):
         super(SerialCommunication, self).__init__()
 
         if not SerialCommunication._instance:
