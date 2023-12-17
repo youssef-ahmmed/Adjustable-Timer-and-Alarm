@@ -4,18 +4,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QTimeEdit, QPushButton
 
 from alarm_communicator import AlarmCommunicator
 from alarm_slot import AlarmSlot
-
-
-def add_trailing_zero(text):
-    return '0' + text if len(text) == 1 else text
-
-
-def remove_widgets(layout):
-    while layout.count():
-        item = layout.takeAt(0)
-        widget = item.widget()
-        if widget:
-            widget.deleteLater()
+from util import Util
 
 
 class AlarmTab(QWidget):
@@ -47,11 +36,11 @@ class AlarmTab(QWidget):
         layout.addLayout(self.alarm_list)
 
     def show_alarms(self):
-        remove_widgets(self.alarm_list)
+        Util.remove_widgets(self.alarm_list)
         alarms_raw_value: List[str] = self.AlarmCommunicator.get_alarms()
         for alarm_value in alarms_raw_value:
             raw_hour = ''.join(alarm_value[:2])
             hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (
-            add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
+                Util.add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
             time = hour + ':' + alarm_value[-2:] + ' ' + daynight
             self.alarm_list.addWidget(AlarmSlot(time))
