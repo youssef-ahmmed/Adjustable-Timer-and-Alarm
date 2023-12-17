@@ -44,4 +44,4 @@ class AlarmTab(QWidget):
                 hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (
                     Util.add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
                 time = hour + ':' + alarm_value[-2:] + ' ' + daynight
-                self.alarm_list.addWidget(AlarmSlot(time, idx))
+                self.alarm_list.addWidget(AlarmSlot(time, idx, self.show_alarms))

@@ -1,16 +1,18 @@
+from typing import Callable
+
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QPushButton
 
 from alarm_communicator import AlarmCommunicator
 
 
 class AlarmSlot(QWidget):
-    def __init__(self, alarm_time, idx):
+    def __init__(self, alarm_time, idx, cb: Callable):
         super().__init__()
 
         self.alarm_text = alarm_time
         self.alarm_idx = idx + 1
         self.alarm_communicator = AlarmCommunicator.get_instance()
-
+        self.show_callback = cb
         self.init_ui()
 
     def init_ui(self):
@@ -27,3 +29,7 @@ class AlarmSlot(QWidget):
     def delete_alarm(self):
         self.setParent(None)
         self.deleteLater()
+
+    def delete_and_show(self):
+        self.alarm_communicator.delete_alarm(self.alarm_idx)
+        self.show_callback()
