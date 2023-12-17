@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QTimeEdit
 AlarmNumbers = Literal['1', '2', '3', '4']
 
 
-class HardwareCommunicator:
+class AlarmCommunicator:
+
     def __init__(self):
 
         self.alarms: Dict[AlarmNumbers, Optional[str]] = {
