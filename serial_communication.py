@@ -1,4 +1,5 @@
 import serial
+import time
 from serial.serialutil import SerialException
 
 
@@ -37,7 +38,9 @@ class SerialCommunication:
     def write_data(self, data):
         if self.serial and self.serial.is_open:
             try:
-                self.serial.write(data.encode())
+                for ch in data:
+                    self.serial.write(ch.encode())
+                    time.sleep(0.25)
                 print(f"Sent: {data}")
             except SerialException as e:
                 print(f"Error writing data: {e}")

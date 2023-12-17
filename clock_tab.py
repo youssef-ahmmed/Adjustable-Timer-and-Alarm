@@ -11,6 +11,8 @@ class ClockTab(QWidget):
         self.time_edit = QTimeEdit(self)
         self.set_clock_button = QPushButton('Set Clock', self)
 
+        self.serial = SerialCommunication.get_instance()
+
         self.init_ui()
 
     def init_ui(self):
@@ -32,6 +34,7 @@ class ClockTab(QWidget):
 
         self.send_clock_data(clock_time)
 
-    @staticmethod
-    def send_clock_data(clock_time):
-        SerialCommunication.get_instance().write_data(clock_time)
+    def send_clock_data(self, clock_time):
+        self.serial.open_connection()
+        self.serial.write_data('1' + clock_time + '0')
+        self.serial.close_connection()
