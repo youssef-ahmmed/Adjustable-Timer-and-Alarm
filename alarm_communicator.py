@@ -40,7 +40,15 @@ class AlarmCommunicator:
         # self.serial.close_connection()
 
         # self.serial.open_connection()
-        all_alarms = self.serial.read_data_by_bytes(16)
+        # all_alarms = self.serial.read_data_by_bytes(16)
+        all_alarms = "0012FFFF05500909"
         self.serial.close_connection()
-        print('after send 4', all_alarms)
+        # print('after send 4', all_alarms)
+        for c in range(0, 4):
+            alarm = all_alarms[c * 4: c * 4 + 4]
+            if alarm == 'FFFF':
+                self.alarms[str(c + 1)] = None
+            else:
+                self.alarms[str(c + 1)] = alarm
+        
         return [v for v in self.alarms.values() if v is not None]

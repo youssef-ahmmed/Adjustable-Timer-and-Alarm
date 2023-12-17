@@ -28,6 +28,7 @@ class AdjustableTimerAndAlarmApp(QMainWindow):
 
         tab_widget.addTab(clock_tab, 'Clock')
         tab_widget.addTab(alarm_tab, 'Alarm')
+        alarm_tab.presssed.connect(alarm_tab.show_alarms)
 
         layout.addWidget(tab_widget)
 
