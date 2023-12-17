@@ -35,7 +35,12 @@ class AlarmCommunicator:
         print(self.alarms)
 
     def get_alarms(self) -> List[str]:
-        self.serial.write_data('4')
-        all_alarms = self.serial.read_all_data()
-        print(all_alarms)
+        self.serial.open_connection()
+        self.serial.write_data('40')
+        # self.serial.close_connection()
+
+        # self.serial.open_connection()
+        all_alarms = self.serial.read_data_by_bytes(1)
+        self.serial.close_connection()
+        print('after send 4', all_alarms)
         return [v for v in self.alarms.values() if v is not None]
