@@ -19,18 +19,23 @@ class AdjustableTimerAndAlarmApp(QMainWindow):
         main_widget = QWidget(self)
         self.setCentralWidget(main_widget)
 
-        layout = QVBoxLayout(main_widget)
+        self.layout = QVBoxLayout(main_widget)
 
-        tab_widget = QTabWidget()
+        self.tab_widget = QTabWidget()
 
-        clock_tab = ClockTab()
-        alarm_tab = AlarmTab()
+        self.clock_tab = ClockTab()
+        self.alarm_tab = AlarmTab()
 
-        tab_widget.addTab(clock_tab, 'Clock')
-        tab_widget.addTab(alarm_tab, 'Alarm')
-        alarm_tab.presssed.connect(alarm_tab.show_alarms)
+        self.tab_widget.addTab(self.clock_tab, 'Clock')
+        self.tab_widget.addTab(self.alarm_tab, 'Alarm')
 
-        layout.addWidget(tab_widget)
+        self.tab_widget.tabBarClicked.connect(self.show_content)
+
+        self.layout.addWidget(self.tab_widget)
+
+    def show_content(self, index):
+        if index == 1:
+            self.alarm_tab.show_alarms()
 
 
 if __name__ == '__main__':

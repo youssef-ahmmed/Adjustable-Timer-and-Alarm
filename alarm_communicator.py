@@ -9,15 +9,24 @@ AlarmNumbers = Literal['1', '2', '3', '4']
 
 
 class AlarmCommunicator:
+    _instance = None
+
+    @classmethod
+    def get_instance(cls):
+        if not cls._instance:
+            cls._instance = cls()
+        return cls._instance
 
     def __init__(self):
-        self.serial = SerialCommunication.get_instance()
-        self.alarms: Dict[AlarmNumbers, Optional[str]] = {
-            '1': None,
-            '2': None,
-            '3': None,
-            '4': None
-        }
+        if not AlarmCommunicator._instance:
+            self.serial = SerialCommunication.get_instance()
+            self.alarms: Dict[AlarmNumbers, Optional[str]] = {
+                '1': None,
+                '2': None,
+                '3': None,
+                '4': None
+            }
+            AlarmCommunicator._instance = self
 
     def get_first_available_alarm_slot(self) -> Optional[AlarmNumbers]:
         return next((k for k, v in self.alarms.items() if v is None), None)
@@ -34,12 +43,14 @@ class AlarmCommunicator:
 
         print(self.alarms)
 
+    def delete_alarm(self, idx):
+        self.serial.open_connection()
+        self.serial.write_data(f'3{idx}0')
+        self.serial.close_connection()
+
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
         self.serial.write_data('40')
-        # self.serial.close_connection()
-
-        # self.serial.open_connection()
         # all_alarms = self.serial.read_data_by_bytes(16)
         all_alarms = "0012FFFF05500909"
         self.serial.close_connection()
@@ -50,5 +61,5 @@ class AlarmCommunicator:
                 self.alarms[str(c + 1)] = None
             else:
                 self.alarms[str(c + 1)] = alarm
-        
-        return [v for v in self.alarms.values() if v is not None]
+
+        return [v for v in self.alarms.values()]

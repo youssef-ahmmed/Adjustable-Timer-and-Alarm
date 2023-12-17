@@ -1,11 +1,15 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QPushButton
 
+from alarm_communicator import AlarmCommunicator
+
 
 class AlarmSlot(QWidget):
-    def __init__(self, alarm_time):
+    def __init__(self, alarm_time, idx):
         super().__init__()
 
         self.alarm_text = alarm_time
+        self.alarm_idx = idx + 1
+        self.alarm_communicator = AlarmCommunicator.get_instance()
 
         self.init_ui()
 
@@ -17,6 +21,7 @@ class AlarmSlot(QWidget):
 
         delete_button = QPushButton('Delete', self)
         delete_button.clicked.connect(self.delete_alarm)
+        delete_button.clicked.connect(lambda: self.alarm_communicator.delete_alarm(self.alarm_idx))
         layout.addWidget(delete_button)
 
     def delete_alarm(self):

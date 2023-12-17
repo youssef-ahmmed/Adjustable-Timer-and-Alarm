@@ -10,7 +10,7 @@ from util import Util
 class AlarmTab(QWidget):
     def __init__(self):
         super().__init__()
-        self.AlarmCommunicator = AlarmCommunicator()
+        self.AlarmCommunicator = AlarmCommunicator.get_instance()
         self.errors: List[str] = []
         self.init_ui()
 
@@ -38,9 +38,10 @@ class AlarmTab(QWidget):
     def show_alarms(self):
         Util.remove_widgets(self.alarm_list)
         alarms_raw_value: List[str] = self.AlarmCommunicator.get_alarms()
-        for alarm_value in alarms_raw_value:
-            raw_hour = ''.join(alarm_value[:2])
-            hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (
-                Util.add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
-            time = hour + ':' + alarm_value[-2:] + ' ' + daynight
-            self.alarm_list.addWidget(AlarmSlot(time))
+        for idx, alarm_value in enumerate(alarms_raw_value):
+            if alarm_value is not None:
+                raw_hour = ''.join(alarm_value[:2])
+                hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (
+                    Util.add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
+                time = hour + ':' + alarm_value[-2:] + ' ' + daynight
+                self.alarm_list.addWidget(AlarmSlot(time, idx))
