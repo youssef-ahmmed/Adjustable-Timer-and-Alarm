@@ -4,10 +4,22 @@ from serial.serialutil import SerialException
 
 class SerialCommunication:
 
-    def __init__(self, port, baudrate=9600):
-        self.port = port
-        self.baudrate = baudrate
-        self.serial = None
+    _instance = None
+
+    def __init__(self, port, baudrate):
+        if not SerialCommunication._instance:
+            self.port = port
+            self.baudrate = baudrate
+            self.serial = None
+            SerialCommunication._instance = self
+        else:
+            print("An instance of SerialCommunication already exists.")
+
+    @classmethod
+    def get_instance(cls, port='COM1', baudrate=9600):
+        if not cls._instance:
+            cls._instance = cls(port, baudrate)
+        return cls._instance
 
     def open_connection(self):
         try:
