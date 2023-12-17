@@ -3,10 +3,6 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTimeEdit, QPushButton
 from serial_communication import SerialCommunication
 
 
-def send_clock_data(clock_time):
-    SerialCommunication.get_instance().write_data(clock_time)
-
-
 class ClockTab(QWidget):
 
     def __init__(self):
@@ -32,4 +28,10 @@ class ClockTab(QWidget):
         minutes = '0' + minutes if len(minutes) == 1 else minutes
         clock_time = hours + minutes + '00'
 
-        send_clock_data(clock_time)
+        print(clock_time)
+
+        self.send_clock_data(clock_time)
+
+    @staticmethod
+    def send_clock_data(clock_time):
+        SerialCommunication.get_instance().write_data(clock_time)

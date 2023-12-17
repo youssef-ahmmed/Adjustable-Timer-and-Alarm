@@ -6,20 +6,22 @@ class SerialCommunication:
 
     _instance = None
 
-    def __init__(self, port, baudrate):
+    @classmethod
+    def get_instance(cls):
+        if not cls._instance:
+            cls._instance = cls()
+        return cls._instance
+
+    def __init__(self, port='COM2', baudrate=9600):
+        super(SerialCommunication, self).__init__()
+
         if not SerialCommunication._instance:
             self.port = port
             self.baudrate = baudrate
             self.serial = None
             SerialCommunication._instance = self
         else:
-            print("An instance of SerialCommunication already exists.")
-
-    @classmethod
-    def get_instance(cls, port='COM1', baudrate=9600):
-        if not cls._instance:
-            cls._instance = cls(port, baudrate)
-        return cls._instance
+            raise Exception("An instance of SerialCommunication already exists.")
 
     def open_connection(self):
         try:
