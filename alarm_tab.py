@@ -1,13 +1,14 @@
 from typing import List
 
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QTimeEdit, QPushButton, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QTimeEdit, QPushButton
 
-from HardwareCommunicator import HardwareCommunicator
-from alarm_widget import AlarmWidget
+from alarm_communicator import AlarmCommunicator
+from alarm_slot import AlarmSlot
 
 
 def add_trailing_zero(text):
     return '0' + text if len(text) == 1 else text
+
 
 def remove_widgets(layout):
     while layout.count():
@@ -16,14 +17,15 @@ def remove_widgets(layout):
         if widget:
             widget.deleteLater()
 
+
 class AlarmTab(QWidget):
     def __init__(self):
         super().__init__()
-        self.hardwareCommunicator = HardwareCommunicator()
+        self.AlarmCommunicator = AlarmCommunicator()
         self.errors: List[str] = []
-        self.initUI()
+        self.init_ui()
 
-    def initUI(self):
+    def init_ui(self):
         layout = QVBoxLayout(self)
 
         set_alarm_label = QLabel('Set Alarm', self)
@@ -34,7 +36,7 @@ class AlarmTab(QWidget):
 
         set_alarm_button = QPushButton('Set Alarm', self)
         set_alarm_button.pressed.connect(lambda:
-                                         self.hardwareCommunicator.
+                                         self.AlarmCommunicator.
                                          send_alarm_time(alarm_time_edit.time(), self.errors))
         set_alarm_button.pressed.connect(self.show_alarms)
         set_alarm_button.pressed.connect(lambda: print(self.errors))
@@ -46,10 +48,10 @@ class AlarmTab(QWidget):
 
     def show_alarms(self):
         remove_widgets(self.alarm_list)
-        alarms_raw_value: List[str] = self.hardwareCommunicator.get_alarms()
+        alarms_raw_value: List[str] = self.AlarmCommunicator.get_alarms()
         for alarm_value in alarms_raw_value:
             raw_hour = ''.join(alarm_value[:2])
-            hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
+            hour, daynight = (raw_hour, 'AM') if int(raw_hour) <= 12 else (
+            add_trailing_zero(str(int(raw_hour) - 12)), 'PM')
             time = hour + ':' + alarm_value[-2:] + ' ' + daynight
-            self.alarm_list.addWidget(AlarmWidget(time))
-
+            self.alarm_list.addWidget(AlarmSlot(time))
