@@ -1,6 +1,7 @@
 from typing import List
 
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QTimeEdit, QPushButton
+from PyQt5.QtCore import QRect
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QTimeEdit, QPushButton, QGroupBox
 
 from alarm_communicator import AlarmCommunicator
 from alarm_slot import AlarmSlot
@@ -15,25 +16,33 @@ class AlarmTab(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        layout = QVBoxLayout(self)
+        set_alarm_group_box = QGroupBox(self)
+        set_alarm_group_box.setGeometry(20, 20, 430, 100)
+        set_alarm_label = QLabel('Set Alarm', set_alarm_group_box)
 
-        set_alarm_label = QLabel('Set Alarm', self)
-        layout.addWidget(set_alarm_label)
+        set_alarm_label.setGeometry(QRect(10, 0, 560, 40))
 
-        alarm_time_edit = QTimeEdit(self)
-        layout.addWidget(alarm_time_edit)
+        alarm_time_edit = QTimeEdit(set_alarm_group_box)
+        alarm_time_edit.setGeometry(QRect(20, 55, 200, 30))
 
-        set_alarm_button = QPushButton('Set Alarm', self)
+        set_alarm_button = QPushButton('Set Alarm', set_alarm_group_box)
+        set_alarm_button.setGeometry(QRect(300, 55, 100, 30))
         set_alarm_button.pressed.connect(lambda:
                                          self.AlarmCommunicator.
                                          send_alarm_time(alarm_time_edit.time(), self.errors))
         set_alarm_button.pressed.connect(self.show_alarms)
         set_alarm_button.pressed.connect(lambda: print(self.errors))
-        layout.addWidget(set_alarm_button)
 
-        self.alarm_list = QVBoxLayout()
+        self.alarm_list = QVBoxLayout(self)
+        alarm_list_group = QGroupBox(self)
+        alarm_list_group.setGeometry(20, 180, 430, 500)
+        alarm_list_group.setLayout(self.alarm_list)
 
-        layout.addLayout(self.alarm_list)
+        # list_width = 300  # Replace with your desired width
+        # list_height = 100  # Replace with your desired height
+        # self.alarm_list.setGeometry(QRect(20, 270, list_width, list_height))
+        # self.alarm_list.setFixedSize(list_width, list_height)
+        # self.setLayout(self.alarm_list)
 
     def show_alarms(self):
         Util.remove_widgets(self.alarm_list)
