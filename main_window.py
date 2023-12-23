@@ -1,6 +1,9 @@
 import sys
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QTabWidget
+from qmaterialwidgets import TimePicker
+
+from qt_material import apply_stylesheet
 
 from alarm_tab import AlarmTab
 from clock_tab import ClockTab
@@ -16,7 +19,10 @@ class AdjustableTimerAndAlarmApp(QMainWindow):
         self.setWindowTitle('Adjustable Timer and Alarm')
         self.setGeometry(100, 100, 500, 600)
 
+
         main_widget = QWidget(self)
+
+        self.picker = TimePicker(main_widget)
         self.setCentralWidget(main_widget)
 
         self.layout = QVBoxLayout(main_widget)
