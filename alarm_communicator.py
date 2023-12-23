@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QTimeEdit
 from serial_communication import SerialCommunication
 from util import Util
 
-AlarmNumbers = Literal['1', '2', '3', '4']
+AlarmNumbers = Literal["1", "2", "3", "4"]
 
 
 class AlarmCommunicator:
@@ -21,10 +21,10 @@ class AlarmCommunicator:
         if not AlarmCommunicator._instance:
             self.serial = SerialCommunication.get_instance()
             self.alarms: Dict[AlarmNumbers, Optional[str]] = {
-                '1': None,
-                '2': None,
-                '3': None,
-                '4': None
+                "1": None,
+                "2": None,
+                "3": None,
+                "4": None,
             }
             AlarmCommunicator._instance = self
 
@@ -37,7 +37,7 @@ class AlarmCommunicator:
         minute = Util.add_trailing_zero(minute)
         alarm_time = hour + minute
         if self.get_first_available_alarm_slot() is None:
-            errors.append('No available alarms!')
+            errors.append("No available alarms!")
         else:
             self.alarms[self.get_first_available_alarm_slot()] = alarm_time
 
@@ -45,22 +45,25 @@ class AlarmCommunicator:
 
     def delete_alarm(self, idx):
         self.serial.open_connection()
-        self.serial.write_data(f'3{idx}0')
+        self.serial.write_data(f"3{idx}0")
         self.serial.close_connection()
 
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
-        self.serial.write_data('40')
+        self.serial.write_data("40")
         # all_alarms = self.serial.read_data_by_bytes(16)
 
-        all_alarms = "0012FFFF05500909"
+        all_alarms = "0012001505500909"
         self.serial.close_connection()
-        print('get_alarms: ', all_alarms)
+        print("get_alarms: ", all_alarms)
         for c in range(0, 4):
-            alarm = all_alarms[c * 4: c * 4 + 4]
-            if alarm == 'FFFF':
+            alarm = all_alarms[c * 4 : c * 4 + 4]
+            if alarm == "FFFF":
                 self.alarms[str(c + 1)] = None
             else:
                 self.alarms[str(c + 1)] = alarm
 
         return [v for v in self.alarms.values()]
+
+    def get_nums_of_alarms(self) -> int:
+        return len([v for v in self.alarms.values() if v is not None])
