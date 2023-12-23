@@ -13,7 +13,7 @@ class SerialCommunication:
             cls._instance = cls()
         return cls._instance
 
-    def __init__(self, port='COM2', baudrate=9600):
+    def __init__(self, port='/dev/ttyUSB0', baudrate=9600):
         super(SerialCommunication, self).__init__()
 
         if not SerialCommunication._instance:
