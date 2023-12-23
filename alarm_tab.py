@@ -48,12 +48,13 @@ class AlarmTab(QWidget):
 
         self.alarm_list.setDirection(QVBoxLayout.BottomToTop)
         alarm_list_group = QGroupBox(self)
+        alarm_list_group.setStyleSheet("background-color: transparent;")
+        alarm_list_group.setTitle("Alarms")
         self.alarm_list_virtual_group = QGroupBox(self)
 
-        alarm_list_group.setTitle("Alarms")
         alarm_list_group.setStyleSheet("background-color: transparent;")
-        alarm_list_group.setGeometry(20, 180, 430, 300)
-        self.alarm_list_virtual_group.setGeometry(20, 200, 430, self.alarm_list_height)
+        alarm_list_group.setGeometry(20, 140, 430, self.alarm_list_height)
+        self.alarm_list_virtual_group.setGeometry(20, 140, 430, self.alarm_list_height)
 
         self.alarm_list.addSpacing(10)
         self.alarm_list.addStretch()
@@ -82,7 +83,7 @@ class AlarmTab(QWidget):
                 if self.alarm_list_height < 250:
                     self.alarm_list_height += 60
                     self.alarm_list_virtual_group.setGeometry(
-                        20, 200, 430, self.alarm_list_height
+                        20, 140, 430, self.alarm_list_height
                     )
                 self.alarm_list.addWidget(
                     AlarmSlot(time, idx, self.show_alarms, self.shrink_alarm_list)
@@ -92,5 +93,5 @@ class AlarmTab(QWidget):
         self.alarm_list_height -= 60
         if self.alarmCommunicator.get_nums_of_alarms() == 0:
             self.alarm_list_height = 0
-        self.alarm_list_virtual_group.setGeometry(20, 200, 430, self.alarm_list_height)
+        self.alarm_list_virtual_group.setGeometry(20, 140, 430, self.alarm_list_height)
         print("shrinking :", self.alarm_list_height)
