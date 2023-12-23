@@ -41,7 +41,7 @@ class AlarmTab(QWidget):
                 alarm_time_edit.time(), self.errors
             )
         )
-        set_alarm_button.pressed.connect(self.show_alarms)
+        set_alarm_button.pressed.connect(lambda: self.show_alarms())
         set_alarm_button.pressed.connect(lambda: print(self.errors))
 
         self.alarm_list = QVBoxLayout(self)
@@ -60,12 +60,6 @@ class AlarmTab(QWidget):
         self.alarm_list.addStretch()
         alarm_list_group.setLayout(self.alarm_list)
         self.alarm_list_virtual_group.setLayout(self.alarm_list)
-
-        # list_width = 300  # Replace with your desired width
-        # list_height = 100  # Replace with your desired height
-        # self.alarm_list.setGeometry(QRect(20, 270, list_width, list_height))
-        # self.alarm_list.setFixedSize(list_width, list_height)
-        # self.setLayout(self.alarm_list)
 
     def show_alarms(self):
         Util.remove_widgets(self.alarm_list)
