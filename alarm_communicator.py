@@ -36,10 +36,9 @@ class AlarmCommunicator:
         hour = Util.add_trailing_zero(hour)
         minute = Util.add_trailing_zero(minute)
         alarm_time = hour + minute
-        if self.get_first_available_alarm_slot() is None:
-            errors.append("No available alarms!")
-        else:
-            self.alarms[self.get_first_available_alarm_slot()] = alarm_time
+        self.serial.open_connection()
+        self.serial.write_data('2' + alarm_time)
+        self.serial.close_connection()
 
         print(self.alarms)
 
@@ -50,11 +49,10 @@ class AlarmCommunicator:
 
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
-        self.serial.write_data("40")
-        # all_alarms = self.serial.read_data_by_bytes(16)
+        self.serial.write_data("4")
+        all_alarms = self.serial.read_data_by_bytes(16)
+        print(all_alarms)        
 
-        all_alarms = "0012001505500909"
-        self.serial.close_connection()
         print("get_alarms: ", all_alarms)
         for c in range(0, 4):
             alarm = all_alarms[c * 4 : c * 4 + 4]
@@ -62,7 +60,7 @@ class AlarmCommunicator:
                 self.alarms[str(c + 1)] = None
             else:
                 self.alarms[str(c + 1)] = alarm
-
+        self.serial.close_connection()
         return [v for v in self.alarms.values()]
 
     def get_nums_of_alarms(self) -> int:
