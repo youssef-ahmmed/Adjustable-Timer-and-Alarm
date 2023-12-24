@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTimeEdit, QPushButton, QCheckBox
-from serial_communication import SerialCommunication
+from new_ui.serial_communication import SerialCommunication
 from datetime import datetime
 
 class ClockTab(QWidget):

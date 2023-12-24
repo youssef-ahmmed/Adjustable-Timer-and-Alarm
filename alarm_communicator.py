@@ -2,7 +2,7 @@ from typing import List, Dict, Literal, Optional
 
 from PyQt5.QtWidgets import QTimeEdit
 
-from serial_communication import SerialCommunication
+from new_ui.serial_communication import SerialCommunication
 from util import Util
 
 AlarmNumbers = Literal["1", "2", "3", "4"]
