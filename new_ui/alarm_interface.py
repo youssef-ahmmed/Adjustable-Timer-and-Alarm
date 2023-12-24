@@ -24,7 +24,7 @@ from qmaterialwidgets import (
     FilledPushButton,
 )
 from qmaterialwidgets import FluentIcon as FIF
-from typing import Callable
+from typing import Callable, List
 from alarm_communicator import AlarmCommunicator
 from util import Util
 
@@ -52,7 +52,14 @@ class AlarmSlot(QWidget):
         delete_button.setGeometry(0, 0, 430, 50)
         layout.addWidget(delete_button)
 
-        delete_button.pressed.connect(lambda: self.delete_and_show())
+        delete_button.clicked.connect(self.delete_alarm)
+        delete_button.clicked.connect(
+            lambda: self.alarm_communicator.delete_alarm(self.alarm_idx)
+        )
+
+    def delete_alarm(self):
+        self.setParent(None)
+        self.deleteLater()
 
     def delete_alarm(self):
         self.setParent(None)
