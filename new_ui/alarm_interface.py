@@ -68,7 +68,6 @@ class AlarmSlot(QWidget):
     def delete_and_show(self):
         self.shrink_callback()
         self.delete_alarm()
-        # self.alarm_communicator.delete_alarm(self.alarm_idx)
         self.show_callback()
 
 
@@ -79,9 +78,6 @@ class AlarmInterface(QFrame):
         self.alarm_list_height = 320
 
         self.alarm_set_group = QWidget(self)
-
-        # self.label = QLabel("Alarm", self.alarm_set_group)
-        # self.label.setStyleSheet("color: white;")
         self.picker = TimePicker(self.alarm_set_group)
         self.setAlarmButton = FilledPushButton("Set Alarm", self.alarm_set_group)
 
@@ -90,10 +86,7 @@ class AlarmInterface(QFrame):
 
         self.alarm_set_group.setGeometry(-15, 0, 550, 300)
 
-        # setFont(self.label, 24)
-        # self.label.setAlignment(Qt.AlignCenter)
         self.picker.setAlignment(Qt.AlignCenter)
-        # self.vBoxLayout.addWidget(self.label, 1, Qt.AlignCenter)
 
         self.vBoxLayout.addLayout(self.hBoxLayout)
         self.hBoxLayout.addWidget(self.picker, 1, Qt.AlignCenter)
@@ -109,32 +102,11 @@ class AlarmInterface(QFrame):
             )
         )
         self.setAlarmButton.pressed.connect(lambda: self.show_alarms())
-        # self.alarm_list_virtual_group = QWidget(self)
-        # self.alarm_list = QVBoxLayout(self.alarm_list_group)
-        # self.alarm_list.setDirection(QVBoxLayout.BottomToTop)
-        # self.alarm_list_group.setStyleSheet("background-color: transparent;")
-        # self.alarm_list_group.setGeometry(0, 0, 430, self.alarm_list_height)
-        # self.alarm_list_virtual_group.setGeometry(0, 0, 430, self.alarm_list_height)
-        # self.alarm_list.addSpacing(10)
-        # self.alarm_list.addStretch()
-
-        # alarmSlot0 = AlarmSlot("12:00", 0, self.show_alarms, self.shrink_alarm_list)
-        # alarmSlot1 = AlarmSlot("03:14", 1, self.show_alarms, self.shrink_alarm_list)
-        # alarmSlot2 = AlarmSlot("09:41", 2, self.show_alarms, self.shrink_alarm_list)
-        # alarmSlot3 = AlarmSlot("17:00", 3, self.show_alarms, self.shrink_alarm_list)
         self.alarmListLayout = QVBoxLayout(self.alarm_list_group)
 
         self.getterButton = FilledPushButton("Show Alarms", self.alarm_set_group)
         self.getterButton.pressed.connect(lambda: self.show_alarms())
         self.vBoxLayout.addWidget(self.getterButton, 1, Qt.AlignCenter)
-        # self.alarmListLayout.addWidget(alarmSlot0)
-        # self.alarmListLayout.addWidget(alarmSlot1)
-        # self.alarmListLayout.addWidget(alarmSlot2)
-        # self.alarmListLayout.addWidget(alarmSlot3)
-
-        # self.alarm_list.addWidget(alarmSlot)
-        # self.alarm_list_group.setLayout(self.alarm_list)
-        # self.alarm_list_virtual_group.setLayout(self.alarm_list)
 
     def show_alarms(self):
         Util.remove_widgets(self.alarmListLayout)
@@ -149,18 +121,9 @@ class AlarmInterface(QFrame):
                     else (Util.add_trailing_zero(str(int(raw_hour) - 12)), "PM")
                 )
                 time = hour + ":" + alarm_value[-2:] + " " + daynight
-                # if self.alarm_list_height < 250:
-                #     self.alarm_list_height += 60
-                #     self.alarm_list_virtual_group.setGeometry(
-                #         20, 140, 430, self.alarm_list_height
-                #     )
                 self.alarmListLayout.addWidget(
                     AlarmSlot(time, idx, self.show_alarms, self.shrink_alarm_list)
                 )
 
     def shrink_alarm_list(self):
-        # self.alarm_list_height -= 60
-        # if self.alarm_communicator.get_nums_of_alarms() == 0:
-        #     self.alarm_list_height = 0
-        # self.alarm_list_virtual_group.setGeometry(20, 140, 430, self.alarm_list_height)
         print("shrinking :", self.alarm_list_height)
