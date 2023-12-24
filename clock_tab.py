@@ -26,7 +26,6 @@ class ClockTab(QWidget):
         self.set_current_time_checkbox.stateChanged.connect(self.toggle_editability)
 
     def toggle_editability(self, state):
-        # If the checkbox is checked, make the QTimeEdit non-editable; otherwise, make it editable
         self.time_edit.setReadOnly(state == 2)
 
     def get_clock_data(self):
