@@ -16,7 +16,6 @@ class Window(BottomNavMaterialWindow):
 
     def __init__(self):
         super().__init__()
-        setTheme(Theme.DARK)
         # create sub interface
         self.clockInterface = ClockInterface(self)
         self.alarmInterface = AlarmInterface(self)
@@ -44,7 +43,7 @@ if __name__ == '__main__':
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
-    # setTheme(Theme.DARK)
+    setTheme(Theme.DARK)
 
     app = QApplication(sys.argv)
     w = Window()
