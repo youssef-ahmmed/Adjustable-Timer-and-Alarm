@@ -2,7 +2,7 @@ from typing import List, Dict, Literal, Optional
 
 from PyQt5.QtWidgets import QTimeEdit
 
-from new_ui.serial_communication import SerialCommunication
+from serial_communication import SerialCommunication
 from util import Util
 
 AlarmNumbers = Literal["1", "2", "3", "4"]
@@ -37,7 +37,7 @@ class AlarmCommunicator:
         minute = Util.add_trailing_zero(minute)
         alarm_time = hour + minute
         self.serial.open_connection()
-        self.serial.write_data('2' + alarm_time)
+        self.serial.write_data("2" + alarm_time)
         self.serial.close_connection()
 
         print(self.alarms)
@@ -50,8 +50,10 @@ class AlarmCommunicator:
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
         self.serial.write_data("4")
-        all_alarms = self.serial.read_data_by_bytes(16)
-        print(all_alarms)        
+        # all_alarms = self.serial.read_data_by_bytes(16)
+        all_alarms = "FFFF0314FFFF0941"
+
+        print(all_alarms)
 
         print("get_alarms: ", all_alarms)
         for c in range(0, 4):

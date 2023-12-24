@@ -4,8 +4,16 @@ import sys
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout, QVBoxLayout
-from qmaterialwidgets import (NavigationItemPosition, MessageBox, setTheme, Theme, BottomNavMaterialWindow,
-                              SubtitleLabel, setFont, TimePicker)
+from qmaterialwidgets import (
+    NavigationItemPosition,
+    MessageBox,
+    setTheme,
+    Theme,
+    BottomNavMaterialWindow,
+    SubtitleLabel,
+    setFont,
+    TimePicker,
+)
 from qmaterialwidgets import FluentIcon as FIF
 
 from alarm_interface import AlarmInterface
@@ -13,7 +21,6 @@ from clock_interface import ClockInterface
 
 
 class Window(BottomNavMaterialWindow):
-
     def __init__(self):
         super().__init__()
         # create sub interface
@@ -24,10 +31,11 @@ class Window(BottomNavMaterialWindow):
         self.initWindow()
 
     def initNavigation(self):
-        self.addSubInterface(self.clockInterface, FIF.DATE_TIME, 'Clock', FIF.DATE_TIME)
-        self.addSubInterface(self.alarmInterface, FIF.CALENDAR, 'Alarm', FIF.CALENDAR)
+        self.addSubInterface(self.clockInterface, FIF.DATE_TIME, "Clock", FIF.DATE_TIME)
+        self.addSubInterface(self.alarmInterface, FIF.CALENDAR, "Alarm", FIF.CALENDAR)
 
         self.navigationInterface.setCurrentItem(self.clockInterface.objectName())
+        # if the alarm interface is selected then show the alarms using show_alarms()
 
     def initWindow(self):
         self.resize(500, 700)
@@ -37,9 +45,10 @@ class Window(BottomNavMaterialWindow):
         self.move(w // 2 - self.width() // 2, h // 2 - self.height() // 2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     QApplication.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+    )
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
 
