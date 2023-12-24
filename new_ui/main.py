@@ -36,6 +36,8 @@ class Window(BottomNavMaterialWindow):
 
         self.navigationInterface.setCurrentItem(self.clockInterface.objectName())
         # if the alarm interface is selected then show the alarms using show_alarms()
+        
+        
 
     def initWindow(self):
         self.resize(500, 700)
