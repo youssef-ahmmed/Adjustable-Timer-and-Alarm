@@ -13,6 +13,7 @@ class AlarmInterface(QFrame):
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        self.alarm_list_height = 250
 
         self.alarm_set_group = QWidget(self)
 
@@ -23,7 +24,7 @@ class AlarmInterface(QFrame):
         self.vBoxLayout = QVBoxLayout(self.alarm_set_group)
         self.hBoxLayout = QHBoxLayout(self.alarm_set_group)
 
-        self.alarm_list_group = QWidget(self)
+        
         
 
         self.alarm_set_group.setGeometry(-15, -50, 550, 300)
@@ -37,3 +38,16 @@ class AlarmInterface(QFrame):
         self.hBoxLayout.addWidget(self.picker, 1, Qt.AlignCenter)
         self.hBoxLayout.addWidget(self.setAlarmButton, 1, Qt.AlignCenter)
         self.setObjectName('Alarm')
+        
+        self.alarm_list_group = QWidget(self)
+        self.alarm_list_virtual_group = QWidget(self)
+        self.alarm_list = QVBoxLayout(self.alarm_list_group)
+        self.alarm_list.setDirection(QVBoxLayout.BottomToTop)
+        self.alarm_list_group.setStyleSheet("background-color: transparent;")
+        self.alarm_list_group.setTitle("Alarms")
+        self.alarm_list_group.setGeometry(20, 140, 430, self.alarm_list_height)
+        self.alarm_list_virtual_group.setGeometry(20, 140, 430, self.alarm_list_height)
+        self.alarm_list.addSpacing(10)
+        self.alarm_list.addStretch()
+        
+     
