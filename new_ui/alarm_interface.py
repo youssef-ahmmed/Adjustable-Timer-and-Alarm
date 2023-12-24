@@ -104,8 +104,8 @@ class AlarmInterface(QFrame):
 
         self.alarm_list_group.setGeometry(20, 220, 550, self.alarm_list_height)
         self.setAlarmButton.pressed.connect(
-            lambda: self.alarmCommunicator.send_alarm_time(
-                self.picker.time, self.errors
+            lambda: self.alarm_communicator.send_alarm_time(
+                self.picker.time, ''
             )
         )
         self.setAlarmButton.pressed.connect(lambda: self.show_alarms())

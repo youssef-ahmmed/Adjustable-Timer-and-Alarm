@@ -50,8 +50,8 @@ class AlarmCommunicator:
     def get_alarms(self) -> List[str]:
         self.serial.open_connection()
         self.serial.write_data("4")
-        # all_alarms = self.serial.read_data_by_bytes(16)
-        all_alarms = "00:12031405030941"
+        all_alarms = self.serial.read_data_by_bytes(16)
+        # all_alarms = "00:12031405030941"
 
         print(all_alarms)
 
